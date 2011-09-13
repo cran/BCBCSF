@@ -250,7 +250,7 @@ bcbcsf_fitpred <- function (
       }
   }
   
-  close (pb)
+  if (monitor) close (pb)
 
   if (!is.null (array_probs_pred))
   {

@@ -1,0 +1,14 @@
+292c87cb86dea8bd7926a1cfefa3a110 *DESCRIPTION
+fe25d6516142f398ecb1d0e50975d21b *R/comp_pred.r
+01c67b78be3dd37ee1eed483d80f31ae *R/loadpkg.r
+3a5b552ab41b26ff9823071921b618dc *R/tr-pr.r
+fc2fe0434255c82067163054323bea92 *data/lymphoma.RData
+10a7da03acccf9809a257245f0f131fd *man/analyzefit.Rd
+417514a9c0a66def2872aba8503ad59a *man/data.Rd
+99a65af8cdf6e287e6e194ec689846e0 *man/evalpred.Rd
+ab4108aa927d574ca2dbb0b6447e9448 *man/example.Rd
+72322f4cff57dc6761d54346bc52fb59 *man/fitpred.Rd
+6b60acd7bb54fc9108148d92bb91c6fc *man/internal.Rd
+bfbdc08e287f9ea8bc728fff7aa4acf0 *src/all.c
+dbbf2d919eebb5904c1ca2deb46cd6ee *src/ccodes/adjfactor.c
+614f3f6bec3403df8159fd8ab034983b *src/ccodes/pred.c

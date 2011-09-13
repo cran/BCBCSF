@@ -1,5 +1,5 @@
 Package: BCBCSF
-Version: 0.0-0
+Version: 0.0-1
 Title: Bias-corrected Bayesian Classification with Selected Features
 Author: Longhai Li <longhai@math.usask.ca>
 Maintainer: Longhai Li <longhai@math.usask.ca>
@@ -19,6 +19,6 @@ Description: This software is used to predict the discrete class labels
         select features.
 License: GPL (>= 2)
 URL: http://www.r-project.org, http://math.usask.ca/~longhai
-Packaged: 2011-07-27 06:46:52 UTC; longhai
+Packaged: 2011-09-13 20:45:09 UTC; longhai
 Repository: CRAN
-Date/Publication: 2011-07-27 07:10:33
+Date/Publication: 2011-09-14 06:20:04
