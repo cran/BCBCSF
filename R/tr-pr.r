@@ -437,7 +437,7 @@ bcbcsf_plotsumfit <- function (sum_fit)
             main = sprintf ("Normalized Means (Signals) of Class %d", g))
    }
    
-   plot (sum_fit$signalj, type = "h", 
+   plot (sum_fit$signalj, type = "h", ylim = c(0, max(sum_fit$signalj)), 
          ylab = "Average Signal Level",
          xlab = "Gene Rank by F-statistic",
          main = "Overall Signal Levels of Top Genes")
@@ -660,7 +660,7 @@ comp_adjfactor <- function(w_mu, w_x, qflmd, cut_dpoi = exp (-10) )
 {
   lmd <- qflmd$plmd * w_mu / w_x
   qf <- qflmd$qf
-  .C(name = "comp_adjfactor", PACKAGE = "BCBCSF",
+  .C("comp_adjfactor", PACKAGE = "BCBCSF",
   cut_dpoi, length(qf),length(lmd), qf, lmd, adjf = 0.0 )$adjf
 }
 

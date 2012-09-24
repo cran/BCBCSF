@@ -2,11 +2,12 @@
 
 \docType{data}
 
+\alias{lymphoma}
+
 \alias{lymph.X}
 
 \alias{lymph.y}
 
-\alias{lymphoma}
 
 \title{Lymphoma Microarray Data}
 

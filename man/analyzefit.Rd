@@ -1,8 +1,8 @@
 \name{d4:analyzefit}
 
-\alias{reload_fit_bcbcsf}
-
 \alias{bcbcsf_sumfit}
+
+\alias{reload_fit_bcbcsf}
 
 \alias{bcbcsf_plotsumfit}
 
