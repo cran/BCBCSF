@@ -1,5 +1,6 @@
 # Import all packages listed as Imports or Depends
-importFrom( abind, "abind")
+useDynLib("BCBCSF")
+importFrom(abind, "abind")
 
 exportPattern ("bcbcsf")
 export ("cross_vld", "eval_pred")

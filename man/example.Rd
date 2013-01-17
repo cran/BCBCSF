@@ -2,12 +2,19 @@
 
 \alias{bcbcsfexamples}
 
-\title{Examples of fitting models, predicting class labels, evaluating prediction, and analyzing fitting results}
+\title{Examples of fitting models, predicting class labels, evaluating
+prediction, and analyzing fitting results}
 
-\description{These examples demonstrate how to use BCBCSF package. They use all prior and Markov chain sampling settings by default (except \code{no_rmc} as noted below). The methods for setting others can be found from documents for specific functions. However, the default settings may work well for a wide range of gene expression data.}
+\description{These examples demonstrate how to use BCBCSF package. They use
+all prior and Markov chain sampling settings by default (except
+\code{no_rmc} as noted below). The methods for setting others can be found
+from documents for specific functions. However, the default settings may
+work well for a wide range of gene expression data.}
 
-\seealso{\code{\link{bcbcsf_fitpred}}, \code{\link{bcbcsf_pred}}, \code{\link{cross_vld}}, \code{\link{eval_pred}},  
-\code{\link{reload_fit_bcbcsf}}, \code{\link{bcbcsf_sumfit}}, \code{\link{bcbcsf_plotsumfit}}}
+\seealso{\code{\link{bcbcsf_fitpred}}, \code{\link{bcbcsf_pred}},
+\code{\link{cross_vld}}, \code{\link{eval_pred}},  
+\code{\link{reload_fit_bcbcsf}}, \code{\link{bcbcsf_sumfit}},
+\code{\link{bcbcsf_plotsumfit}}}
 
 \examples{
 
@@ -32,7 +39,7 @@ y_ts <- lymph.y[ts]
 out_fit <- bcbcsf_fitpred (X_tr = X_tr, y_tr = y_tr, nos_fsel = c(20, 50),
                            no_rmc = 100)
 ## note 1: if 'X_ts' is given above, prediction is made after fitting
-## note 2: no_rmc = 100 is too small, omit it and use the default in practice
+## note 2: no_rmc = 100 is too small, omit it and use the default
 
 ## predicting class labels of test cases 
 out_pred <- bcbcsf_pred (X_ts = X_ts, out_fit = out_fit)
@@ -45,7 +52,8 @@ eval_pred (out_pred = out_pred, y_ts = y_ts)
 ##########################################################################
 ## reload one bcbcsf fit result from hardrive
 fit_bcbcsf <- reload_fit_bcbcsf (out_fit$fitfiles[1])
-## the fitting result for no_fsel = 50 can be retrieved directly from out_fit:
+## the fitting result for no_fsel = 50 can be retrieved directly from
+## out_fit:
 fit_bcbcsf_fsel50 <- out_fit$fit_bcbcsf
 ## summarize the fitting result
 sum_fit <- bcbcsf_sumfit (fit_bcbcsf)
@@ -73,10 +81,7 @@ eval_pred (out_pred = cv_pred, y_ts = lymph.y)
 }
 
 \references{
-
-The technical details of this software are described by:
-
-Li, L. (2011+), Bias-corrected Hierarchical Bayesian Classification
-with a Selected Subset of High-dimensional Features,  to appear in \emph{Journal of American Statistical Association}, available from \url{http://math.usask.ca/~longhai/doc/bcbcsf/jasapaper.pdf}.
+Li, L. (2012), Bias-corrected Hierarchical Bayesian Classification
+with a Selected Subset of High-dimensional Features, \emph{Journal of
+American Statistical Association},107:497,120-134
 }
-

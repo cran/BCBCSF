@@ -1,13 +1,12 @@
-306e2268eb656ea10c8e8ce5d521d52d *DESCRIPTION
-2fa9bd2e33d01f33b53fd8b56e982f10 *NAMESPACE
+68cbbf91d96e1fc0f22baa55939c9d1e *DESCRIPTION
+69a386c4de817319ab92686a48514e62 *NAMESPACE
 fe25d6516142f398ecb1d0e50975d21b *R/comp_pred.r
-9835bc944592e1df1681b2e7de63c939 *R/loadpkg.r
 20196be4fb2eaa7feb2d04ba75c71f11 *R/tr-pr.r
 fc2fe0434255c82067163054323bea92 *data/lymphoma.RData
 ffe589015e26a3415f9cf9ac831ff8c6 *man/analyzefit.Rd
 dbbc6568d0cb88101a3960bb24f0d278 *man/data.Rd
 99a65af8cdf6e287e6e194ec689846e0 *man/evalpred.Rd
-ab4108aa927d574ca2dbb0b6447e9448 *man/example.Rd
+7c61b0e56eb6703fb62a8954f0d75fb2 *man/example.Rd
 72322f4cff57dc6761d54346bc52fb59 *man/fitpred.Rd
 6b60acd7bb54fc9108148d92bb91c6fc *man/internal.Rd
 bfbdc08e287f9ea8bc728fff7aa4acf0 *src/all.c
