@@ -255,9 +255,9 @@ bcbcsf_fitpred <- function (
   if (!is.null (array_probs_pred))
   {
       dims <- dim (array_probs_pred)
-      dimnames (array_probs_pred) [[1]] <- paste("Case", 1:dims[1], sep="")
-      dimnames (array_probs_pred) [[2]] <- paste("Class", 1:dims[2], sep="")
-      dimnames (array_probs_pred) [[3]] <- paste("fsel", nos_fsel, sep="")
+      dimnames (array_probs_pred)  <- list(paste("Case", 1:dims[1], sep=""),
+                                           paste("Class", 1:dims[2], sep=""),
+                                           paste("fsel", 1:dims[3], sep=""))
   }
   
   ## returning results
@@ -291,9 +291,10 @@ bcbcsf_pred <- function (
     }
     
     dims <- dim (array_probs_pred)
-    dimnames (array_probs_pred) [[1]] <- paste("Case", 1:dims[1], sep="")
-    dimnames (array_probs_pred) [[2]] <- paste("Class", 1:dims[2], sep="")
-    dimnames (array_probs_pred) [[3]] <- paste("fsel", nos_fsel, sep="")
+    dimnames (array_probs_pred)  <- list(paste("Case", 1:dims[1], sep=""),
+                                         paste("Class", 1:dims[2], sep=""),
+                                         paste("fsel", 1:dims[3], sep=""))
+    
     
     list (fitfiles = fitfiles,
           array_probs_pred = array_probs_pred, 

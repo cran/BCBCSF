@@ -68,31 +68,30 @@ eval_pred <- function (out_pred, y_ts, Mloss = NULL)
 ## partition all cases into nfold subsets
 ## This function partitions a set of observations into subsets of almost
 ## equal size. The result is used in crossvalidation
-mk_folds <- function(y, nfold = 10, random = TRUE)
+mk_folds <- function(y, nfold = 10, random = FALSE)
 {
     n <- length (y)
     nos_g <- table (y)
     G <- length (nos_g)
-    nfold <- min (nfold, nos_g)
-
-    folds <- rep (0, n)
+    nfold <- min (nfold, n)
     
-    for (g in 1:G)
-    {
-        ng <- nos_g [g]
-        m <- ceiling (ng/nfold)
-
-        if (random)
-        {
-            gfolds <- c( replicate (m, sample (1:nfold) ) ) [1:ng]
-        }
-        else
-        {
-            gfolds <- rep (1:nfold, m)[1:ng]
-        }
-        
-        folds [y == g] <- gfolds
+    reduced.rep <- TRUE
+    while (reduced.rep){
+       if (!random)        folds <- rep (1:nfold, length = n)
+       else folds <- sample(rep (1:nfold, length=n))
+       ## check any fold has reduced class representation
+       reduced.rep <- FALSE
+       for (i in 1:nfold)
+       {
+           G_ifold <- length(unique (y[folds!=i]))
+           if (G_ifold < G){
+               reduced.rep <- TRUE
+               random <- TRUE
+               break
+           } 
+       }
     }
+    
     
     ## create fold list 
     foldlist <- rep (list (""),nfold)
@@ -103,6 +102,7 @@ mk_folds <- function(y, nfold = 10, random = TRUE)
     
     foldlist
  }
+
 
 #################### a generic crossvalidation function ####################
 ## X --- features with rows for cases
@@ -149,8 +149,13 @@ cross_vld <- function (
   
   ## make the order of cases in array_probs_pred is the same as X
   array_probs_pred <- array_probs_pred[order (vector_ts),,, drop = FALSE]
-
-  dimnames (array_probs_pred) [[1]] <- paste("Case", 1:n, sep="")
+  dims <- dim (array_probs_pred)
+  dimnames (array_probs_pred)  <- list(paste("Case", 1:dims[1], sep=""),
+                                       paste("Class", 1:dims[2], sep=""),
+                                       paste("fsel", 1:dims[3], sep=""))
+  
+  
+  #dimnames (array_probs_pred) [[1]] <- paste("Case", 1:n, sep="")
 
   c (onetrpr, list (folds = folds, array_probs_pred = array_probs_pred) )
 }
