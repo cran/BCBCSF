@@ -103,7 +103,6 @@ mk_folds <- function(y, nfold = 10, random = FALSE)
     foldlist
  }
 
-
 #################### a generic crossvalidation function ####################
 ## X --- features with rows for cases
 ## y --- a vector of response values
@@ -113,36 +112,50 @@ mk_folds <- function(y, nfold = 10, random = FALSE)
 ## 	the outputs of fitpred_func must include probs_pred
 ## ... --- other arguments needed by fitpred_func other than X_tr, y_tr, X_ts
 cross_vld <- function (
-     X, y, nfold = 10, folds = NULL, fitpred_func = bcbcsf_fitpred,  ...)
+    X, y, nfold = 10, folds = NULL, fitpred_func = bcbcsf_fitpred,  ...)
 {
   if (!is.matrix(X)) stop ("'X' must be a matrix with rows for cases")
-
+  
   n <- nrow(X)
-
-
+  
   if (is.null (folds))
   {
     folds <- mk_folds (y, nfold, random = FALSE)
   }
-
+  
   nfold <- length (folds)
-
+  
   array_probs_pred <- NULL
   vector_ts <- NULL
-
+  cv_fitfiles <- character(0) ## Initialize vector to store all file names
+  
   for (i_test in 1:nfold)
   {
     cat(sprintf ("Fold%2d: ", i_test) )
     ts <- folds [[i_test]]
     vector_ts <- c (vector_ts, ts)
     tr <- (1:n)[- (ts)]
-
-    onetrpr <- fitpred_func (
-          X_tr = X[tr,, drop = FALSE], y_tr = y[tr],
-          X_ts = X[ts,, drop = FALSE], ...)
+    
+    ## Intercept ... to add fold identifier to the saved file prefix if it exists
+    args_list <- list(...)
+    if ("fit_bcbcsf_filepre" %in% names(args_list) && !is.null(args_list$fit_bcbcsf_filepre)) {
+      args_list$fit_bcbcsf_filepre <- paste0(args_list$fit_bcbcsf_filepre, "fold_", sprintf("%02d", i_test), "_")
+    }
+    
+    ## Use do.call to evaluate the function with the modified arguments
+    onetrpr <- do.call(fitpred_func, c(list(X_tr = X[tr,, drop = FALSE], 
+                                            y_tr = y[tr], 
+                                            X_ts = X[ts,, drop = FALSE]), 
+                                       args_list))
+    
+    ## Collect the filenames generated in this fold
+    if ("fitfiles" %in% names(onetrpr)) {
+      cv_fitfiles <- c(cv_fitfiles, onetrpr$fitfiles)
+    }
+    
     one_array_probs_pred <- onetrpr$array_probs_pred
     array_probs_pred <- abind ( array_probs_pred, one_array_probs_pred,
-      along = 1)
+                                along = 1)
     onetrpr <- onetrpr[names(onetrpr) != "array_probs_pred"]
   }
   cat ("\n")
@@ -154,11 +167,11 @@ cross_vld <- function (
                                        paste("Class", 1:dims[2], sep=""),
                                        paste("fsel", 1:dims[3], sep=""))
   
+  ## Clean up empty strings if no files were saved
+  cv_fitfiles <- cv_fitfiles[cv_fitfiles != ""]
   
-  #dimnames (array_probs_pred) [[1]] <- paste("Case", 1:n, sep="")
-
-  c (onetrpr, list (folds = folds, array_probs_pred = array_probs_pred) )
+  ## Append cv_fitfiles to the very end of the returned list
+  c (onetrpr, list (folds = folds, array_probs_pred = array_probs_pred, cv_fitfiles = as.list(cv_fitfiles)) )
 }
-
 
 

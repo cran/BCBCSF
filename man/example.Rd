@@ -35,9 +35,13 @@ y_ts <- lymph.y[ts]
 ##########################################################################
 ######################## training and prediction #########################
 ##########################################################################
+
+## To comply with CRAN policies, we use R's temporary directory for saving files
+my_prefix <- file.path(tempdir(), "bcbcsf_")
+
 ## fitting training data with top features selected by F-statistic 
 out_fit <- bcbcsf_fitpred (X_tr = X_tr, y_tr = y_tr, nos_fsel = c(20, 50),
-                           no_rmc = 100)
+                           no_rmc = 10, fit_bcbcsf_filepre = my_prefix)
 ## note 1: if 'X_ts' is given above, prediction is made after fitting
 ## note 2: no_rmc = 100 is too small, omit it and use the default
 
@@ -64,12 +68,15 @@ bcbcsf_plotsumfit (sum_fit)
 ##########################################################################
 ############################ cross validation ############################
 ##########################################################################
+
+cv_prefix <- file.path(tempdir(), "cv_bcbcsf_")
+
 ## doing cross validation with bcbcsf_fitpred on lymphoma data 
 cv_pred <- cross_vld (
        ##################### classifier, data, and fold ###################
        fitpred_func = bcbcsf_fitpred, X = lymph.X, y = lymph.y, nfold = 2,
        ################ all other arguments passed classifier ############
-       nos_fsel = c(20,50), no_rmc = 100 )
+       nos_fsel = c(10,12), no_rmc = 20, fit_bcbcsf_filepre = cv_prefix)
 ## note: no_rmc = 100 is too small, omit it and use the default in practice
 
 ## evaluate prediction given true labels            

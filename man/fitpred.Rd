@@ -6,11 +6,10 @@
 
 \alias{cross_vld}
 
-
 \title{Functions for fitting models with MCMC, predicting class labels of test cases, and finding predictive probabilities with cross-validation}
 
 \description{
-\code{bcbcsf_fitpred} trains  models with Gibbs sampling for each number of retained features. The results are saved in files. This function also makes predictions for test cases if they are provided.
+\code{bcbcsf_fitpred} trains models with Gibbs sampling for each number of retained features. The results are saved in files. This function also makes predictions for test cases if they are provided.
 
 \code{bcbcsf_pred} uses the posterior samples saved by \code{bcbcsf_fitpred} to predict the class labels of test cases. Prediction results are an array of predictive probabilities \code{array_probs_pred}, whose rows for test cases, columns for classes, and the 3rd dimension for different numbers of retained features.
 
@@ -27,7 +26,7 @@ bcbcsf_fitpred (
   burn = NULL, thin = 1, offset_sdxj = 0.5,
   ## arguments for Markov chain sampling
   no_rmc = 1000, no_imc = 5, no_mhwmux = 10,
-  fit_bcbcsf_filepre = ".fitbcbcsf_", 
+  fit_bcbcsf_filepre = NULL, 
   ## arguments specifying priors for parameters and hyerparameters
   w0_mu = 0.05, alpha0_mu = 0.5, alpha1_mu = 3,
   w0_x  = 1.00, alpha0_x  = 0.5, alpha1_x  = 10,
@@ -59,7 +58,7 @@ cross_vld (X, y, nfold = 10, folds = NULL,
 
 \item{no_rmc, no_imc}{\code{no_rmc} of super Markov chain transitions are run, with \code{no_imc} Markov chain iterations for each; only the last state of each super transition is saved.}
 
-\item{fit_bcbcsf_filepre}{a string added to the names of files saving Markov chain fitting results; the actual file names contain also the data dimension and number of retained features; when \code{fit_bcbcsf_filepre} is set to NULL, no fitting file will be created, and \code{bcbcsf_fitpred} returns only the fitting result corresponding to the last number of retained features in \code{nos_fsel}, which is always returned regardless of the value of \code{fit_bcbcsf_filepre}.}
+\item{fit_bcbcsf_filepre}{a string added to the names of files saving Markov chain fitting results; the actual file names contain also the data dimension and number of retained features. By default, this is set to \code{NULL}, meaning no fitting files will be created, and \code{bcbcsf_fitpred} returns only the fitting result corresponding to the last number of retained features in \code{nos_fsel}. If you wish to save the files, provide a string prefix (e.g., "my_fit_").}
 
 \item{w0_mu,alpha0_mu,alpha1_mu,w0_x,alpha0_x,alpha1_x,w0_nu,alpha0_nu}{settings of priors for means and variances of genes; they are denoted by \eqn{w_0^{\mu}}, \eqn{\alpha_1^{\mu}}, \eqn{\alpha_1^\mu},\eqn{w_0^x},\eqn{\alpha_0^x},\eqn{\alpha_1^x},\eqn{w_0^\nu},\eqn{\alpha_0^\nu} in the reference. 
 }
@@ -94,6 +93,8 @@ cross_vld (X, y, nfold = 10, folds = NULL,
 
 \item{fitfiles}{a string vector of length \code{nos_fsel}, each saving file name of Markov chain fitting result for a number of retained features in \code{nos_fsel};  the \code{fitfiles} returned by \code{cross_vld} is for the training in the last fold.}
 
+\item{cv_fitfiles}{a list of strings returned by \code{cross_vld}, containing the names of all files saved across all folds. This is only populated if \code{fit_bcbcsf_filepre} is not \code{NULL}.}
+
 \item{array_probs_pred}{an array of predictive probabilities, whose rows for test cases, columns for classes, and the 3rd dimension for different numbers of retained features.}
 
 \item{fit_bcbcsf}{a list of Markov chain sampling results from the fitting with number of retained features equal to the last number in \code{nos_fsel}. Note that, the fitting results for other numbers (including the last one) of retained feature are saved in harddrive files if \code{fit_bcbcsf_filepre} isn't empty, and can be retrieved using function \code{\link{reload_fit_bcbcsf}}. Particularly, the list component of \code{fit_bcbcsf} has \code{fsel} saving the indice of features selected by F-statistic.}
@@ -101,3 +102,18 @@ cross_vld (X, y, nfold = 10, folds = NULL,
 
 \keyword{classif}
 
+\examples{
+## Generate a small simulated dataset
+set.seed(1)
+X <- matrix(rnorm(50 * 20), nrow = 50, ncol = 20)
+y <- c(rep(1, 25), rep(2, 25))
+
+## Fit and predict with bcbcsf_fitpred (no files saved to disk by default)
+\donttest{
+out_fit <- bcbcsf_fitpred(X_tr = X[1:40, ], y_tr = y[1:40], no_rmc=20,
+                          X_ts = X[41:50, ], nos_fsel = c(5, 10))
+
+## Cross-validation (no files saved to disk by default)
+cv_res <- cross_vld(X = X, y = y, nfold = 3, no_rmc = 20, nos_fsel = c(5, 10))
+}
+}

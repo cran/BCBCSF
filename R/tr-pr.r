@@ -9,7 +9,7 @@ bcbcsf_fitpred <- function (
   burn = NULL, thin = 1, offset_sdxj = 0.5,
   ## arguments for Markov chain sampling
   no_rmc = 1000, no_imc = 5, no_mhwmux = 10,
-  fit_bcbcsf_filepre = ".fitbcbcsf_", 
+  fit_bcbcsf_filepre = NULL, 
   ## arguments specifying priors for parameters and hyerparameters
   w0_mu = 0.05, alpha0_mu = 0.5, alpha1_mu = 3,
   w0_x  = 1.00, alpha0_x  = 0.5, alpha1_x  = 10,
